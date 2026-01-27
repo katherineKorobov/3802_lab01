@@ -145,8 +145,49 @@ legend('Case 1', 'Case 2', 'Case 3','Line of fit Case 1','Line of fit Case 2','L
 legend('Case 1', 'Case 2', 'Case 3');
 hold off;
 
-%%
+%% Uncertinity analysis:
 
+% Case 01
+r_case01_F0 = computeRSquared(F0_Case1, line1);
+r_case01_F1 = computeRSquared(F1_Case1, lineF1_Case1 );
+r_case01_F2 = computeRSquared(F2_Case1, lineF2_Case1);
+r_case01_F3 = computeRSquared(F3_Case1, lineF3_Case1);
+r_case01_LVDT = computeRSquared(LVDT_Case1, lineLVDT_Case1);
+
+case01_uncertinaty = [r_case01_F0, r_case01_F1, r_case01_F2, r_case01_F3, r_case01_LVDT];
+
+% Case 02
+r_case02_F0 = computeRSquared(F0_Case2, line2);
+r_case02_F1 = computeRSquared(F1_Case2, lineF1_Case2);
+r_case02_F2 = computeRSquared(F2_Case2, lineF2_Case2);
+r_case02_F3 = computeRSquared(F3_Case2, lineF3_Case2);
+r_case02_LVDT = computeRSquared(LVDT_Case2, lineLVDT_Case2);
+
+case02_uncertinaty = [r_case02_F0, r_case02_F1, r_case02_F2, r_case02_F3, r_case02_LVDT];
+
+% Case 03
+r_case03_F0 = computeRSquared(F0_Case3, line3);
+r_case03_F1 = computeRSquared(F1_Case3, lineF1_Case3);
+r_case03_F2 = computeRSquared(F2_Case3, lineF2_Case3);
+r_case03_F3 = computeRSquared(F3_Case3, lineF3_Case3);
+r_case03_LVDT = computeRSquared(LVDT_Case3, lineLVDT_Case3);
+
+case03_uncertinaty = [r_case03_F0, r_case03_F1, r_case03_F2, r_case03_F3, r_case03_LVDT];
+
+uncertinaty = struct();
+uncertinaty.case01 = case01_uncertinaty;
+uncertinaty.case02 = case02_uncertinaty;
+uncertinaty.case03 = case03_uncertinaty;
+
+
+function [r_squared] = computeRSquared(raw_data, best_fit_data)
+    
+    SSR = sum((best_fit_data - raw_data).^2);
+    TSS = sum(((best_fit_data - mean(raw_data)).^2));
+    r_squared = 1 - (SSR/TSS);
+end
+
+%%
 
 function [best_line, best_x] = createBestFit(x, y)
 
